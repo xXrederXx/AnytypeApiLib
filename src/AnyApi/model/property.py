@@ -16,3 +16,6 @@ class AnyProperty(BaseModel):
     select: AnySelect | None = None
     date: datetime | None = None
     multi_select: list[AnySelect] | None = None
+    text: str | None = None
+    url: str | None = None
+    number: int | float | None = None

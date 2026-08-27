@@ -63,12 +63,16 @@ class Anytype:
         )
 
     def object_by_types(
-        self, type_keys: list[str], space_id: str | None = None
+        self,
+        type_keys: list[str],
+        space_id: str | None = None,
+        offset: int = 0,
+        limit: int = 100,
     ) -> AnyObjectsResponse:
         return AnyObjectsResponse.model_validate(
             self.post(
                 (
-                    build_url("v1", "search")
+                    build_url("v1", "search", offset=offset, limit=limit)
                     if space_id is None
                     else build_url("v1", "spaces", space_id, "search")
                 ),
