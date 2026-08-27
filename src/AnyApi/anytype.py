@@ -1,6 +1,7 @@
 import requests
 
-from AnyApi.util.url import build_url
+from .filters import FilterExpression
+from .util.url import build_url
 
 from .model import AnySpacesResponse, AnySpace, AnyObject, AnyObjectsResponse
 
@@ -23,6 +24,17 @@ class Anytype:
         response.raise_for_status()
         return response.json()
 
+    def post(self, path, data=None, **kwargs):
+        response = self.session.post(
+            f"{self.base_url}{path}",
+            json=data,
+            **kwargs,
+        )
+        print(data)
+        print(response.text)
+        response.raise_for_status()
+        return response.json()
+
     def spaces(self, offset:int=0, limit:int=100) -> AnySpacesResponse:
         return AnySpacesResponse.model_validate(self.get(build_url("v1", "spaces", offset=offset, limit=limit)))
 
@@ -34,3 +46,6 @@ class Anytype:
     
     def object(self, space_id:str, object_id:str) -> AnyObject:
         return AnyObject.model_validate(self.get(build_url("v1", "spaces", space_id, "objects", object_id))["object"])
+    
+    def search(self, filter:FilterExpression):
+        print(self.post(build_url("v1", "search"), filter.build()))
