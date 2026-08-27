@@ -2,7 +2,7 @@ import requests
 
 from AnyApi.util.url import build_url
 
-from .model import AnySpacesResponse, AnySpace
+from .model import AnySpacesResponse, AnySpace, AnyObject, AnyObjectsResponse
 
 
 class Anytype:
@@ -29,5 +29,8 @@ class Anytype:
     def space(self, space_id: str) -> AnySpace:
         return AnySpace.model_validate(self.get(build_url("v1", "spaces", space_id))["space"])
     
-    def objects(self, space_id:str, offset:int=0, limit:int=100):
-        return self.get(build_url("v1", "spaces", space_id, "objects", offset=offset, limit=limit))
+    def objects(self, space_id:str, offset:int=0, limit:int=100) -> AnyObjectsResponse:
+        return AnyObjectsResponse.model_validate(self.get(build_url("v1", "spaces", space_id, "objects", offset=offset, limit=limit)))
+    
+    def object(self, space_id:str, object_id:str) -> AnyObject:
+        return AnyObject.model_validate(self.get(build_url("v1", "spaces", space_id, "objects", object_id))["object"])

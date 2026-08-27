@@ -1,6 +1,9 @@
 from pydantic import BaseModel
 
+from .property import AnyProperty
+
 from .icon import AnyIcon
+
 
 class AnyType(BaseModel):
     object: str
@@ -11,3 +14,4 @@ class AnyType(BaseModel):
     icon: AnyIcon
     archived: bool
     layout: str
+    properties: list[AnyProperty]
