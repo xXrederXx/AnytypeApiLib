@@ -1,7 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
 
 class AnyIcon(BaseModel):
-    format: str
-    emoji: str | None = None
-    name: str | None = None
-    color: str | None = None
+    """Metadata describing an object icon, including its visual style and label."""
+
+    format: str = Field(description="Icon format identifier used by Anytype.")
+    emoji: str | None = Field(default=None, description="Emoji character used for the icon when available.")
+    name: str | None = Field(default=None, description="Human-readable icon name.")
+    color: str | None = Field(default=None, description="Color associated with the icon.")
