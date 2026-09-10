@@ -20,6 +20,7 @@ from .model import (
     AnyTypesResponse,
     AnyType,
     AnyMembersResponse,
+    AnyMember,
 )
 
 
@@ -238,6 +239,26 @@ class Anytype:
                     "v1", "spaces", space_id, "members", offset=offset, limit=limit
                 )
             )
+        )
+
+    def get_member(self, space_id: str, member_id: str) -> AnyMember:
+        """Fetches detailed information about a single member within a space.
+
+        Args:
+            space_id: The ID of the space from which to retrieve the type; must be retrieved from ListSpaces endpoint
+            member_id: Member ID or Identity; must be retrieved from ListMembers endpoint or obtained from response context
+        Raises:
+            UnauthenticatedError: Unauthorized
+            NotFoundError: Not found
+            InternalServerError: Internal server error
+
+        Returns:
+            The member details
+        """
+        return AnyMember.model_validate(
+            self.get(build_url("v1", "spaces", space_id, "members", member_id))[
+                "member"
+            ]
         )
 
 
