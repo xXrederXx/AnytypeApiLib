@@ -13,7 +13,7 @@ class AnyType(APIResponseModel):
     key: str = Field(description="Internal key used to reference the type.")
     name: str = Field(description="Singular display name of the type.")
     plural_name: str = Field(description="Plural display name of the type.")
-    icon: AnyIcon = Field(description="Icon metadata associated with the type.")
+    icon: AnyIcon | None = Field(description="Icon metadata associated with the type.")
     archived: bool = Field(description="Whether this type is archived.")
     layout: str = Field(description="Layout template applied to the type.")
     properties: list[AnyProperty] = Field(

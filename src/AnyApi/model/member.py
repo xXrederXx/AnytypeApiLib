@@ -29,7 +29,7 @@ class AnyMember(APIResponseModel):
     global_name: str = Field(
         description="The global name of the member in the network.",
     )
-    icon: AnyIcon = Field(
+    icon: AnyIcon | None = Field(
         description="Icon metadata associated with the member.",
     )
     id: str = Field(
