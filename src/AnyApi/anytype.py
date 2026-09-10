@@ -18,6 +18,7 @@ from .model import (
     AnyObject,
     AnyObjectsResponse,
     AnyTypesResponse,
+    AnyType,
     AnyMembersResponse,
 )
 
@@ -192,6 +193,26 @@ class Anytype:
             self.get(
                 build_url("v1", "spaces", space_id, "types", offset=offset, limit=limit)
             )
+        )
+
+    def get_type(self, space_id: str, type_id: str) -> AnyType:
+        """Fetches detailed information about one specific type by its ID.
+
+        Args:
+            space_id: The ID of the space from which to retrieve the type; must be retrieved from ListSpaces endpoint
+            type_id: The ID of the type to retrieve; must be retrieved from ListTypes endpoint or obtained from response context
+
+        Raises:
+            UnauthenticatedError: Unauthorized
+            NotFoundError: Not found
+            ResourceDeletedError: Resource deleted
+            InternalServerError: Internal server error
+
+        Returns:
+            The requested type
+        """
+        return AnyType.model_validate(
+            self.get(build_url("v1", "spaces", space_id, "types", type_id))["type"]
         )
 
     def list_members(
