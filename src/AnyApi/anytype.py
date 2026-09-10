@@ -12,7 +12,13 @@ from .error import (
 
 from .util.url import build_url
 
-from .model import AnySpacesResponse, AnySpace, AnyObject, AnyObjectsResponse
+from .model import (
+    AnySpacesResponse,
+    AnySpace,
+    AnyObject,
+    AnyObjectsResponse,
+    AnyTypesResponse,
+)
 
 
 class Anytype:
@@ -163,6 +169,27 @@ class Anytype:
                     else build_url("v1", "spaces", space_id, "search")
                 ),
                 data={"types": type_keys},
+            )
+        )
+
+    def list_types(self, space_id: str, offset: int, limit: int) -> AnyTypesResponse:
+        """This endpoint retrieves a paginated list of types (e.g. 'Page', 'Note', 'Task') available within the specified space.
+
+        Args:
+            space_id (str): The ID of the space to retrieve types from; must be retrieved from ListSpaces endpoint
+            offset: The number of items to skip before starting to collect the result set
+            limit: The number of items to return
+
+        Raises:
+            UnauthenticatedError: Unauthorized
+            InternalServerError: Internal server error
+
+        Returns:
+            The list of types
+        """
+        return AnyObjectsResponse.model_validate(
+            self.get(
+                build_url("v1", "spaces", space_id, "types", offset=offset, limit=limit)
             )
         )
 

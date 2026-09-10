@@ -6,6 +6,7 @@ from .object import AnyObject
 from .property import AnyProperty
 from .objects_response import AnyObjectsResponse
 from .type import AnyType
+from .types_response import AnyTypesResponse
 from .select import AnySelect
 
 __all__ = [
@@ -17,5 +18,6 @@ __all__ = [
     "AnyProperty",
     "AnyObjectsResponse",
     "AnyType",
+    "AnyTypesResponse",
     "AnySelect",
 ]
