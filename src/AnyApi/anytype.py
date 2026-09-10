@@ -18,6 +18,7 @@ from .model import (
     AnyObject,
     AnyObjectsResponse,
     AnyTypesResponse,
+    AnyMembersResponse,
 )
 
 
@@ -67,8 +68,8 @@ class Anytype:
 
 
         Args:
-            offset: The number of items to skip before starting to collect the result set
-            limit: The number of items to return
+            offset (int): The number of items to skip before starting to collect the result set
+            limit (int): The number of items to return
 
         Raises:
             UnauthenticatedError: Unauthorized
@@ -106,8 +107,8 @@ class Anytype:
 
         Args:
             space_id: The ID of the space in which to list objects; must be retrieved from ListSpaces endpoint
-            offset: The number of items to skip before starting to collect the result set
-            limit: The number of items to return
+            offset (int): The number of items to skip before starting to collect the result set
+            limit (int): The number of items to return
 
         Raises:
             UnauthenticatedError: Unauthorized
@@ -187,9 +188,34 @@ class Anytype:
         Returns:
             The list of types
         """
-        return AnyObjectsResponse.model_validate(
+        return AnyTypesResponse.model_validate(
             self.get(
                 build_url("v1", "spaces", space_id, "types", offset=offset, limit=limit)
+            )
+        )
+
+    def list_members(
+        self, space_id: str, offset: int = 0, limit: int = 100
+    ) -> AnyMembersResponse:
+        """Returns a paginated list of members belonging to the specified space.
+
+        Args:
+            space_id (str): The ID of the space to list members for; must be retrieved from ListSpaces endpoint
+            offset (int): The number of items to skip before starting to collect the result set
+            limit (int): The number of items to return
+
+        Raises:
+            UnauthenticatedError: Unauthorized
+            InternalServerError: Internal server error
+
+        Returns:
+            The list of members in the space
+        """
+        return AnyMembersResponse.model_validate(
+            self.get(
+                build_url(
+                    "v1", "spaces", space_id, "members", offset=offset, limit=limit
+                )
             )
         )
 
