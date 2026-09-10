@@ -1,11 +1,11 @@
 from datetime import datetime
+from pydantic import Field
 
-from pydantic import BaseModel, Field
-
+from .base import APIResponseModel
 from .select import AnySelect
 
 
-class AnyProperty(BaseModel):
+class AnyProperty(APIResponseModel):
     """Schema for an Anytype object property, including its value and formatting."""
 
     object: str = Field(description="Type of the object this property belongs to.")
@@ -39,13 +39,13 @@ class AnyProperty(BaseModel):
     def get_objects(self, default: list[str] | None = None) -> list[str]:
         """
         Retrieve the list of related object identifiers.
-        
+
         Args:
             default: Optional default value to return if objects is None.
-        
+
         Returns:
             The list of related object identifiers.
-        
+
         Raises:
             ValueError: If objects is None and no default value is provided.
         """
@@ -60,13 +60,13 @@ class AnyProperty(BaseModel):
     def get_select(self, default: AnySelect | None = None) -> AnySelect:
         """
         Retrieve the single selected option for the property.
-        
+
         Args:
             default: Optional default value to return if select is None.
-        
+
         Returns:
             The selected AnySelect option.
-        
+
         Raises:
             ValueError: If select is None and no default value is provided.
         """
@@ -81,13 +81,13 @@ class AnyProperty(BaseModel):
     def get_date(self, default: datetime | None = None) -> datetime:
         """
         Retrieve the date value of the property.
-        
+
         Args:
             default: Optional default value to return if date is None.
-        
+
         Returns:
             The date value.
-        
+
         Raises:
             ValueError: If date is None and no default value is provided.
         """
@@ -104,13 +104,13 @@ class AnyProperty(BaseModel):
     ) -> list[AnySelect]:
         """
         Retrieve the list of multiple selected options.
-        
+
         Args:
             default: Optional default value to return if multi_select is None.
-        
+
         Returns:
             The list of selected AnySelect options.
-        
+
         Raises:
             ValueError: If multi_select is None and no default value is provided.
         """
@@ -125,13 +125,13 @@ class AnyProperty(BaseModel):
     def get_text(self, default: str | None = None) -> str:
         """
         Retrieve the text value of the property.
-        
+
         Args:
             default: Optional default value to return if text is None.
-        
+
         Returns:
             The text value.
-        
+
         Raises:
             ValueError: If text is None and no default value is provided.
         """
@@ -146,13 +146,13 @@ class AnyProperty(BaseModel):
     def get_url(self, default: str | None = None) -> str:
         """
         Retrieve the URL value of the property.
-        
+
         Args:
             default: Optional default value to return if url is None.
-        
+
         Returns:
             The URL value.
-        
+
         Raises:
             ValueError: If url is None and no default value is provided.
         """
@@ -167,13 +167,13 @@ class AnyProperty(BaseModel):
     def get_number(self, default: int | float | None = None) -> int | float:
         """
         Retrieve the numeric value of the property.
-        
+
         Args:
             default: Optional default value to return if number is None.
-        
+
         Returns:
             The numeric value.
-        
+
         Raises:
             ValueError: If number is None and no default value is provided.
         """

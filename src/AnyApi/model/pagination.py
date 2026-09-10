@@ -1,8 +1,9 @@
+from pydantic import Field
 
-from pydantic import BaseModel, Field
+from .base import APIResponseModel
 
 
-class AnyPagination(BaseModel):
+class AnyPagination(APIResponseModel):
     """Pagination metadata returned by Anytype list endpoints."""
 
     total: int = Field(description="Total number of items available.")

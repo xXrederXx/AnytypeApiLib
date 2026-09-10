@@ -1,11 +1,11 @@
-from pydantic import BaseModel, Field
+from pydantic import Field
 
+from .base import APIResponseModel
 from .property import AnyProperty
-
 from .icon import AnyIcon
 
 
-class AnyType(BaseModel):
+class AnyType(APIResponseModel):
     """Definition of an Anytype object type and its property schema."""
 
     object: str = Field(description="Object type identifier for this schema.")
@@ -16,4 +16,6 @@ class AnyType(BaseModel):
     icon: AnyIcon = Field(description="Icon metadata associated with the type.")
     archived: bool = Field(description="Whether this type is archived.")
     layout: str = Field(description="Layout template applied to the type.")
-    properties: list[AnyProperty] = Field(description="Property definitions for this object type.")
+    properties: list[AnyProperty] = Field(
+        description="Property definitions for this object type."
+    )

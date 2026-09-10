@@ -1,6 +1,14 @@
 import requests
 
-from .error import APIError, BadRequestError, ForbiddenError, NotFoundError, RateLimitError, ResourceDeletedError, UnauthorizedError
+from .error import (
+    APIError,
+    BadRequestError,
+    ForbiddenError,
+    NotFoundError,
+    RateLimitError,
+    ResourceDeletedError,
+    UnauthorizedError,
+)
 
 from .util.url import build_url
 
@@ -55,11 +63,11 @@ class Anytype:
         Args:
             offset: The number of items to skip before starting to collect the result set
             limit: The number of items to return
-        
+
         Raises:
             UnauthenticatedError: Unauthorized
             InternalServerError: Internal server error
-            
+
         Returns:
             The list of spaces accessible by the authenticated user
         """
@@ -69,15 +77,15 @@ class Anytype:
 
     def get_space(self, space_id: str) -> AnySpace:
         """Fetches full details about a single space identified by its space ID.
-        
+
         Args:
             space_id: The ID of the space to retrieve; must be retrieved from ListSpaces endpoint
-        
+
         Raises:
             UnauthenticatedError: Unauthorized
             NotFoundError: Not found
             InternalServerError: Internal server error
-        
+
         Returns:
             The space details
         """
@@ -89,16 +97,16 @@ class Anytype:
         self, space_id: str, offset: int = 0, limit: int = 100
     ) -> AnyObjectsResponse:
         """Retrieves a paginated list of objects in the given space.
-        
+
         Args:
             space_id: The ID of the space in which to list objects; must be retrieved from ListSpaces endpoint
             offset: The number of items to skip before starting to collect the result set
             limit: The number of items to return
-        
+
         Raises:
             UnauthenticatedError: Unauthorized
             InternalServerError: Internal server error
-        
+
         Returns:
             The list of objects in the specified space
         """
@@ -112,17 +120,17 @@ class Anytype:
 
     def get_object(self, space_id: str, object_id: str) -> AnyObject:
         """Fetches the full details of a single object identified by the object ID within the specified space.
-        
+
         Args:
             space_id: The ID of the space in which the object exists; must be retrieved from ListSpaces endpoint
             object_id: The ID of the object to retrieve; must be retrieved from ListObjects, SearchSpace or GlobalSearch endpoints or obtained from response context
-        
+
         Raises:
             UnauthenticatedError: Unauthorized
             NotFoundError: Not found
             ResourceDeletedError: Resource deleted
             InternalServerError: Internal server error
-        
+
         Returns:
             The retrieved object
         """
@@ -132,8 +140,6 @@ class Anytype:
             ]
         )
 
-    
-
     def object_by_types(
         self,
         type_keys: list[str],
@@ -142,12 +148,12 @@ class Anytype:
         limit: int = 100,
     ) -> AnyObjectsResponse:
         """Search for objects by one or more type keys.
-
-        Args:
-            type_keys: Type keys to match.
-            space_id: Optional space to scope the search to.
-            offset: Number of items to skip.
-            limit: Maximum number of items to return.
+        +
+                Args:
+                    type_keys: Type keys to match.
+                    space_id: Optional space to scope the search to.
+                    offset: Number of items to skip.
+                    limit: Maximum number of items to return.
         """
         return AnyObjectsResponse.model_validate(
             self.post(
@@ -161,7 +167,6 @@ class Anytype:
         )
 
 
-
 ERROR_MAP: dict[int, type[APIError]] = {
     400: BadRequestError,
     401: UnauthorizedError,
@@ -169,8 +174,9 @@ ERROR_MAP: dict[int, type[APIError]] = {
     404: NotFoundError,
     410: ResourceDeletedError,
     429: RateLimitError,
-    
 }
+
+
 def map_error(response: requests.Response) -> None:
     data = response.json()
     print(response.__repr__())
