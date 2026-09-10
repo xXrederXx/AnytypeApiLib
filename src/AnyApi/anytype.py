@@ -184,6 +184,7 @@ def map_error(response: requests.Response) -> None:
     error_type = ERROR_MAP.get(response.status_code, APIError)
 
     raise error_type(
+        path=response.url,
         message=data["error"],
         status=response.status_code,
     )

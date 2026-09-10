@@ -4,10 +4,11 @@ from .lib import AnyApiError
 class APIError(AnyApiError):
     """An error returned by the Anytype API."""
 
-    def __init__(self, message: str, status: int):
-        super().__init__(f"APIError: {status} {message}")
+    def __init__(self, message: str, status: int, path: str):
+        super().__init__(f"APIError: {status} {path} {message}")
         self.message = message
         self.status = status
+        self.path = path
 
 
 class BadRequestError(APIError):
